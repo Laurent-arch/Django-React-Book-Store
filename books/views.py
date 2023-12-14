@@ -5,6 +5,7 @@ from django.http import Http404
 from .models import Book
 from .serializers import BookSerializer
 
+
 class BookList(APIView):
     def get(self, request):
         books = Book.objects.all()

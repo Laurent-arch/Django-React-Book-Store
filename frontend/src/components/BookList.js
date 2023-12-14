@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styles from './BookList.module.css'
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
@@ -17,29 +18,42 @@ const BookList = () => {
 
     fetchData();
   }, []);
+  
 
   return (
-    <div>
-      <h1>Book List</h1>
-      <ul>
-        {books.map(book => (
-          <li key={book.id}>
-            <h3>
-              <Link to={`/books/${book.id}`}>{book.title}</Link>
-            </h3>
-            <p>Author: {book.author.username}</p>
-            <p>Genre: {book.genre}</p>
-            <p>{book.synopsis}</p>
+    <div className={styles['book-container']}>
+    <div className={styles['book-list']}>
+      {books.map(book => (
+        <div key={book.id} className={styles['book-card']}>
+          <div className="book-cover-container">
             {book.cover_image && (
               <img
                 src={`http://127.0.0.1:8000${book.cover_image}`}
                 alt={`Cover for ${book.title}`}
+                className={styles['book-cover']}
               />
             )}
-          </li>
-        ))}
-      </ul>
+          </div>
+          <div className={styles['book-details']}>
+            <h5 className={styles['book-title']}>
+              <Link to={`/books/${book.slug}`} className={styles['book-link']}>
+                {book.title}
+              </Link>
+            </h5>
+            <p className={styles['book-author']}>
+              By {book.author} <br />
+            </p>
+           
+            {book.synopsis.length > 50 && (
+              <Link to={`/books/${book.slug}`} className={styles['see-more-link']}>
+               Synopsis
+              </Link>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

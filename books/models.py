@@ -6,7 +6,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
-    genre = models.CharField(max_length=200, unique=True)
+    genre = models.CharField(max_length=200)
     synopsis = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True)
@@ -20,4 +20,4 @@ class Book(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return f'{self.title} by {self.author.username}'
